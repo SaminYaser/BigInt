@@ -1,7 +1,7 @@
 #include "BigInt.h"
 
 
-
+//Constructor
 BigInt::BigInt()
 {
 }
@@ -46,7 +46,7 @@ BigInt::BigInt(std::string n)
 	}
 	else sign = 0;
 
-	while(n[0] == '0')	n.erase(n.begin() + 0);
+	while(n[0] == '0' && n.size() != 1)	n.erase(n.begin() + 0);
 	
 	int i=0;
 	while (i < n.size()) {
@@ -112,16 +112,54 @@ BigInt::~BigInt()
 {
 }
 
+//Utility Functions
+bool BigInt::getSign()
+{
+	return sign;
+}
+
+std::string BigInt::getNumber()
+{
+	std::string tempString;
+	if (getSign()) {
+		tempString += '-';
+	}
+	for (int i = 0; i < number.size(); i++) {
+		tempString += '0' + number[i];
+	}
+	return tempString;
+}
+
+void BigInt::negate()
+{
+	sign = !sign;
+}
+
+void BigInt::PRINT()
+{
+	/*
+	int i = 0;
+	if (getSign())	std::cout << "-";
+	while (i < number.size()) std::cout << number[i++];
+	std::cout << std::endl;
+	*/
+
+	std::cout << getNumber() << std::endl;
+}
+
+//Addition
 BigInt BigInt::add(BigInt b)
 {
-	/*if (b.sign) {
-		sub(b);
-		return 0;
-	}*/
+	if (getSign() != b.getSign()) {
+		b.negate();
+		return sub(b);
+	}
 
 	int tempNumber;
 	int reminder = 0;
 	BigInt tempAns;
+
+	if (getSign()) tempAns.sign = 1;
 
 	int index = number.size() - 1;
 	int indexb = b.number.size() - 1;
@@ -134,10 +172,6 @@ BigInt BigInt::add(BigInt b)
 		index--;
 		indexb--;
 	}
-
-	/*int i = 0;
-	while (i < tempAns.number.size()) std::cout << (tempAns.number[i++]);
-	std::cout << std::endl;*/
 	
 	while (index >= 0) {
 		tempNumber = number[index--] + reminder;
@@ -160,124 +194,164 @@ BigInt BigInt::add(BigInt b)
 
 BigInt BigInt::add(int b)
 {
-	BigInt temp;
-	if (b < 0) {
-		sign = 1;
-		b *= (-1);
-	}
-	else sign = 0;
-
-	while (b) {
-		temp.number.push_back(b % 10);
-		b = b / 10;
-	}
-
-	std::reverse(temp.number.begin(), temp.number.end());
-	temp = add(temp);
-	return temp;
+	BigInt temp(b);
+	return add(temp);
 }
 
 BigInt BigInt::add(long long b)
 {
-	BigInt temp;
-	if (b < 0) {
-		sign = 1;
-		b *= (-1);
-	}
-	else sign = 0;
-
-	while (b) {
-		temp.number.push_back(b % 10);
-		b = b / 10;
-	}
-
-	std::reverse(temp.number.begin(), temp.number.end());
-	temp = add(temp);
-	return temp;
+	BigInt temp(b);
+	return add(temp);
 }
 
 BigInt BigInt::add(std::string n)
 {
-	BigInt temp;
-	if (n[0] == '-') {
-		sign = 1;
-		n.erase(n.begin() + 0);
-	}
-	else sign = 0;
-
-	while (n[0] == '0')	n.erase(n.begin() + 0);
-
-	int i = 0;
-	while (i < n.size()) {
-		temp.number.push_back(n[i++] - '0');
-	}
-	temp = add(temp);
-	return temp;
+	BigInt temp(n);
+	return add(temp);
 }
 
 BigInt BigInt::add(float fb)
 {
-	long long int b = fb;
-	BigInt temp;
-	if (b < 0) {
-		sign = 1;
-		b *= (-1);
-	}
-	else sign = 0;
-
-	while (b) {
-		temp.number.push_back(b % 10);
-		b = b / 10;
-	}
-
-	std::reverse(temp.number.begin(), temp.number.end());
-	temp = add(temp);
-	return temp;
+	BigInt temp(fb);
+	return add(temp);
 }
 
 BigInt BigInt::add(double fd)
 {
-	long long int b = fd;
-	BigInt temp;
-	if (b < 0) {
-		sign = 1;
-		b *= (-1);
-	}
-	else sign = 0;
-
-	while (b) {
-		temp.number.push_back(b % 10);
-		b = b / 10;
-	}
-
-	std::reverse(temp.number.begin(), temp.number.end());
-	temp = add(temp);
-	return temp;
+	BigInt temp(fd);
+	return add(temp);
 }
 
 BigInt BigInt::add(long double fd)
 {
-	unsigned long long int b = fd;
-	BigInt temp;
-	if (b < 0) {
-		sign = 1;
-		b *= (-1);
-	}
-	else sign = 0;
-
-	while (b) {
-		temp.number.push_back(b % 10);
-		b = b / 10;
-	}
-
-	std::reverse(temp.number.begin(), temp.number.end());
-	temp = add(temp);
-	return temp;
+	BigInt temp(fd);
+	return add(temp);
 }
 
-void BigInt::PRINT()
+//Substraction
+BigInt BigInt::sub(BigInt b)
 {
-	int i = 0;
-	while (i < number.size()) std::cout << (number[i++]);
-	std::cout << std::endl;
+	BigInt tempa = *this;
+	
+	if (tempa.sign != b.sign) {
+		b.negate();
+		return tempa.add(b);
+	}
+
+	int tempNumber;
+	int reminder = 0;
+	BigInt tempAns;
+
+	if (tempa.getSign()) {
+		tempAns.sign = tempa.getSign();
+		tempa.sign = !tempa.getSign();
+	}
+
+	int index = tempa.number.size() - 1;
+	int indexb = b.number.size() - 1;
+
+	if (tempa < b) {
+		std::swap(tempa, b);
+		std::swap(index, indexb);
+		tempAns.negate();
+	}
+
+	while (index > 0 && indexb >= 0) {
+		tempNumber = tempa.number[index] - b.number[indexb];
+		if (tempNumber < 0) {
+			tempNumber += 10;
+			tempa.number[index - 1] -= 1;
+		}
+		tempAns.number.push_back(tempNumber);
+
+		index--;
+		indexb--;
+	}
+
+	while (index >= 0) {
+		if(indexb == 0) tempNumber = tempa.number[index] - b.number[indexb--];
+		else			tempNumber = tempa.number[index];
+		if (tempNumber < 0 && index != 0) {
+			tempNumber += 10;
+			tempa.number[index - 1] -= 1;
+		}
+		else if (tempNumber < 0 && index == 0)	tempNumber *= -1; //I don't know if it's right
+		tempAns.number.push_back(tempNumber);
+
+		index--;
+	}
+
+	std::reverse(tempAns.number.begin(), tempAns.number.end());
+
+	while (tempAns.number[0] == 0 && tempAns.number.size() != 1) tempAns.number.erase(tempAns.number.begin() + 0);
+	
+	return tempAns;
 }
+
+//Comparisons
+bool BigInt::operator==(BigInt b)
+{
+	if (sign != b.sign)	return false;
+
+	int index = number.size();
+	int indexb = b.number.size();
+
+	if (index != indexb)	return false;
+
+	int i = 0;
+	while (i < index && number[i] == b.number[i]) i++;
+
+	if (i == index) return true;
+	return false;
+}
+
+bool BigInt::operator!=(BigInt b)
+{
+	return !(*this == b);
+}
+
+bool BigInt::operator<(BigInt b)
+{
+	if (sign == 0 && b.sign == 1)	return false;
+	else if (sign == 1 && b.sign == 0)	return true;
+
+	bool flag = sign;
+	bool ans = 0;
+
+	int index = number.size();
+	int indexb = b.number.size();
+
+	if (index > indexb)	ans = 0;
+	else if (index < indexb)	ans = 1;
+
+	if (index != indexb) {
+		if (flag) return !ans;
+		return ans;
+	}
+
+	int i = 0;
+	while (i < index && number[i] == b.number[i]) i++;
+	
+	if (i == index) return false;
+	else if (number[i] < b.number[i]) ans = 1;
+	else if(number[i] > b.number[i]) ans = 0;
+	
+	if (flag) return !ans;
+	return ans;
+}
+
+bool BigInt::operator<=(BigInt b)
+{
+	return (*this < b || *this == b);
+}
+
+bool BigInt::operator>(BigInt b)
+{
+	return !(*this < b);
+}
+
+bool BigInt::operator>=(BigInt b)
+{
+	return (*this > b || *this == b);
+}
+

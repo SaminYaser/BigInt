@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <cmath>
+#include <cstdlib>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -10,10 +12,10 @@ class BigInt
 {
 private:
 	std::vector<int> number;
-	bool sign;
+	bool sign = 0;
 
 public:
-	//Constructer
+	//Constructor
 	BigInt();
 	BigInt(int);
 	BigInt(long long);
@@ -22,6 +24,12 @@ public:
 	BigInt(double);
 	BigInt(long double);
 	~BigInt();
+
+	//Utility Functions
+	bool getSign();
+	std::string getNumber();
+	void negate();
+	void PRINT();
 
 	//Allocation
 
@@ -35,6 +43,15 @@ public:
 	BigInt add(double);
 	BigInt add(long double);
 
-	void PRINT();
+	//Substraction
+	BigInt sub(BigInt b);
+
+	//Comparisons
+	bool operator == (BigInt);
+	bool operator != (BigInt);
+	bool operator < (BigInt);
+	bool operator <= (BigInt);
+	bool operator > (BigInt);
+	bool operator >= (BigInt);
 };
 

@@ -1,14 +1,20 @@
 #include <iostream>
 #include "BigInt.h"
 
+using namespace std;
+
 int main()
 {
 	int ca = 1;
 	double ba = -1;
 
-	BigInt a("9"), b("-01"), c;
+	BigInt a("-3"), b("-8"), c;
 
-	c = a.add(1);
+	/*if (a == b)	std::cout << "1" << std::endl;
+	else cout << "0" << endl;*/
+
+
+	c = a.sub(b);
 	c.PRINT();
 
 	int pagla;
