@@ -112,6 +112,11 @@ BigInt::~BigInt()
 {
 }
 
+void BigInt::setSign(bool b)
+{
+	sign = b;
+}
+
 //Utility Functions
 bool BigInt::getSign()
 {
@@ -244,16 +249,15 @@ BigInt BigInt::sub(BigInt b)
 
 	if (tempa.getSign()) {
 		tempAns.sign = tempa.getSign();
-		tempa.sign = !tempa.getSign();
 	}
 
 	int index = tempa.number.size() - 1;
 	int indexb = b.number.size() - 1;
 
-	if (tempa < b) {
+	if (tempa.abs() < b.abs()) {
 		std::swap(tempa, b);
 		std::swap(index, indexb);
-		tempAns.negate();
+		tempAns.setSign(b.getSign());
 	}
 
 	while (index > 0 && indexb >= 0) {
@@ -284,7 +288,8 @@ BigInt BigInt::sub(BigInt b)
 	std::reverse(tempAns.number.begin(), tempAns.number.end());
 
 	while (tempAns.number[0] == 0 && tempAns.number.size() != 1) tempAns.number.erase(tempAns.number.begin() + 0);
-	
+	if (tempAns.number[0] == 0)	tempAns.setSign(0);
+
 	return tempAns;
 }
 
@@ -353,5 +358,12 @@ bool BigInt::operator>(BigInt b)
 bool BigInt::operator>=(BigInt b)
 {
 	return (*this > b || *this == b);
+}
+
+BigInt BigInt::abs()
+{
+	BigInt temp = *this;
+	temp.sign = 0;
+	return temp;
 }
 

@@ -26,6 +26,7 @@ public:
 	~BigInt();
 
 	//Utility Functions
+	void setSign(bool);
 	bool getSign();
 	std::string getNumber();
 	void negate();
@@ -53,5 +54,7 @@ public:
 	bool operator <= (BigInt);
 	bool operator > (BigInt);
 	bool operator >= (BigInt);
+
+	BigInt abs();
 };
 
