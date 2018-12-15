@@ -7,7 +7,6 @@
 #include <string>
 #include <algorithm>
 
-
 class BigInt
 {
 private:
@@ -44,8 +43,25 @@ public:
 	BigInt add(double);
 	BigInt add(long double);
 
+	BigInt operator + (BigInt b);
+	template <typename T>
+	BigInt operator + (T);
+
 	//Substraction
 	BigInt sub(BigInt b);
+	BigInt sub(int);
+	BigInt sub(long long);
+	BigInt sub(std::string);
+	BigInt sub(float);
+	BigInt sub(double);
+	BigInt sub(long double);
+
+	BigInt operator - (BigInt b);
+	template <typename T>
+	BigInt operator - (T);
+
+	//Multiplication
+	BigInt mul(BigInt b);
 
 	//Comparisons
 	bool operator == (BigInt);
@@ -55,6 +71,11 @@ public:
 	bool operator > (BigInt);
 	bool operator >= (BigInt);
 
+	//Unary Operators
+	BigInt operator ++();		//prefix
+	BigInt operator ++(int);	//postfix
+	BigInt operator --();		//prefix
+	BigInt operator --(int);	//postfix
+
 	BigInt abs();
 };
-

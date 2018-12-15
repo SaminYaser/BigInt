@@ -233,6 +233,18 @@ BigInt BigInt::add(long double fd)
 	return add(temp);
 }
 
+BigInt BigInt::operator+(BigInt b)
+{
+	return this->add(b);
+}
+
+template<typename T>
+BigInt BigInt::operator+(T b)
+{
+	BigInt temp(b);
+	return this->add(temp);
+}
+
 //Substraction
 BigInt BigInt::sub(BigInt b)
 {
@@ -257,7 +269,7 @@ BigInt BigInt::sub(BigInt b)
 	if (tempa.abs() < b.abs()) {
 		std::swap(tempa, b);
 		std::swap(index, indexb);
-		tempAns.setSign(b.getSign());
+		tempAns.setSign(!b.getSign());
 	}
 
 	while (index > 0 && indexb >= 0) {
@@ -291,6 +303,60 @@ BigInt BigInt::sub(BigInt b)
 	if (tempAns.number[0] == 0)	tempAns.setSign(0);
 
 	return tempAns;
+}
+
+BigInt BigInt::sub(int b)
+{
+	BigInt temp(b);
+	return temp.sub(b);
+}
+
+BigInt BigInt::sub(long long b)
+{
+	BigInt temp(b);
+	return temp.sub(b);
+}
+
+BigInt BigInt::sub(std::string b)
+{
+	BigInt temp(b);
+	return temp.sub(b);
+}
+
+BigInt BigInt::sub(float b)
+{
+	BigInt temp(b);
+	return temp.sub(b);
+}
+
+BigInt BigInt::sub(double b)
+{
+	BigInt temp(b);
+	return temp.sub(b);
+}
+
+BigInt BigInt::sub(long double b)
+{
+	BigInt temp(b);
+	return temp.sub(b);
+}
+
+BigInt BigInt::operator-(BigInt b)
+{
+	return this->sub(b);
+}
+
+template<typename T>
+BigInt BigInt::operator-(T)
+{
+	BigInt temp(T);
+	return this->sub(temp);
+}
+
+BigInt BigInt::mul(BigInt b)
+{
+	BigInt temp = *this;
+
 }
 
 //Comparisons
@@ -358,6 +424,32 @@ bool BigInt::operator>(BigInt b)
 bool BigInt::operator>=(BigInt b)
 {
 	return (*this > b || *this == b);
+}
+
+BigInt BigInt::operator++()
+{
+	*this = *this + 1;
+	return *this;
+}
+
+BigInt BigInt::operator++(int)
+{
+	BigInt before = *this;
+	*this = *this + 1;
+	return before;
+}
+
+BigInt BigInt::operator--()
+{
+	*this = *this - 1;
+	return *this;
+}
+
+BigInt BigInt::operator--(int)
+{
+	BigInt before = *this;
+	*this = *this - 1;
+	return before;
 }
 
 BigInt BigInt::abs()

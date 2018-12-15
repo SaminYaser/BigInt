@@ -8,13 +8,14 @@ int main()
 	int ca = 1;
 	double ba = -1;
 
-	BigInt a("-8"), b("-8"), c;
+	BigInt a(0), b(1), c, d;
 
 	/*if (a == b)	std::cout << "1" << std::endl;
 	else cout << "0" << endl;*/
 
+	
 
-	c = a.sub(b);
+	c = a + b;
 	c.PRINT();
 
 	int pagla;
