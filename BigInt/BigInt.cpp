@@ -308,55 +308,56 @@ BigInt BigInt::sub(BigInt b)
 BigInt BigInt::sub(int b)
 {
 	BigInt temp(b);
-	return temp.sub(b);
+	return sub(b);
 }
 
 BigInt BigInt::sub(long long b)
 {
 	BigInt temp(b);
-	return temp.sub(b);
+	return sub(b);
 }
 
 BigInt BigInt::sub(std::string b)
 {
 	BigInt temp(b);
-	return temp.sub(b);
+	return sub(b);
 }
 
 BigInt BigInt::sub(float b)
 {
 	BigInt temp(b);
-	return temp.sub(b);
+	return sub(b);
 }
 
 BigInt BigInt::sub(double b)
 {
 	BigInt temp(b);
-	return temp.sub(b);
+	return sub(b);
 }
 
 BigInt BigInt::sub(long double b)
 {
 	BigInt temp(b);
-	return temp.sub(b);
+	return sub(b);
 }
 
 BigInt BigInt::operator-(BigInt b)
 {
-	return this->sub(b);
+	return sub(b);
 }
 
 template<typename T>
-BigInt BigInt::operator-(T)
+BigInt BigInt::operator-(T b)
 {
-	BigInt temp(T);
-	return this->sub(temp);
+	BigInt temp(b);
+	return sub(temp);
 }
+
 
 BigInt BigInt::mul(BigInt b)
 {
 	BigInt temp = *this;
-
+	return temp;
 }
 
 //Comparisons
